@@ -1,28 +1,30 @@
 import { Scene } from 'phaser';
 
-export class MainMenu extends Scene
-{
-    constructor ()
-    {
+const createStutter = (scene, key) => {
+    scene.anims.create({
+        key,
+        frames: [{ key: key + '1' }, { key: key + '2' }],
+        repeat: -1,
+        frameRate: 2,
+    });
+};
+
+export class MainMenu extends Scene {
+    constructor() {
         super('MainMenu');
     }
 
-    create ()
-    {
-        this.add.image(512, 384, 'background');
+    create() {
+        createStutter(this, 'maxew');
+        createStutter(this, 'play');
+        createStutter(this, 'help');
 
-        this.add.image(512, 300, 'logo');
-
-        this.add.text(512, 460, 'Main Menu', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        }).setOrigin(0.5);
+        this.add.sprite(960, 475).play('maxew');
+        this.add.sprite(760, 725).play('play');
+        this.add.sprite(1160, 725).play('help');
 
         this.input.once('pointerdown', () => {
-
             this.scene.start('Game');
-
         });
     }
 }

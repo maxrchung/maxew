@@ -22,12 +22,10 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk',
             frames: [
-                { key: 'walk0' },
-                { key: 'walk1' },
-                { key: 'walk2' },
-                { key: 'walk3' },
+                {key: 'walk0'}, {key: 'walk1'}, {key: 'walk2'}, {key: 'walk3'},
+                {key: 'walk4'}, {key: 'walk5'}, {key: 'walk6'}, {key: 'walk7'},
             ],
-            frameRate: 12,
+            frameRate: 30,
             repeat: -1,
         });
         this.anims.create({

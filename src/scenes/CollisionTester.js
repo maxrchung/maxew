@@ -1,7 +1,5 @@
 import { Scene } from 'phaser';
 
-const blocks = [['map', 0, -9600]];
-
 const collisions = [
     [238, -68, 964, -4],
     [-6, -8, 960, 2],
@@ -151,14 +149,13 @@ export class CollisionTester extends Scene {
         this.load.setPath('assets');
         this.load.image('testblock', 'testblock.png');
         this.load.image('testweirdblock', 'testweirdblock.png');
-        this.load.image('map', 'map.png');
 
         this.start = null;
     }
 
     create() {
         // Uncomment to apply distortion effect
-        // this.cameras.main.setPostPipeline('Reflect');
+        this.cameras.main.setPostPipeline('Reflect');
         this.cameras.main.setBackgroundColor(0x00ff00);
 
         this.keys = this.input.keyboard.createCursorKeys();
@@ -170,10 +167,18 @@ export class CollisionTester extends Scene {
             shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
         });
 
-        for (const [key, x, y] of blocks) {
-            const block = this.add.image(x, y, key);
-            block.setOrigin(0, 0);
-        }
+        const backLeft = this.add.rectangle(0, -9600, 960, 9600, 0xffffff);
+        backLeft.setOrigin(0, 0);
+
+        const backRight = this.add.rectangle(960, -9600, 960, 9600, 0x000000);
+        backRight.setOrigin(0, 0);
+
+        const mapLeft = this.add.image(0, -9600, 'map');
+        mapLeft.setOrigin(0, 0);
+
+        const mapRight = this.add.image(960, -9600, 'map');
+        mapRight.setOrigin(0, 0);
+        mapRight.flipX = true;
 
         for (const [x, y, x2, y2] of collisions) {
             const collision = this.add.rectangle(

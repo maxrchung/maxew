@@ -30,6 +30,8 @@ export class Boot extends Scene {
         load(this, 'endtext');
         load(this, 'replay');
 
+        this.load.image('map', 'map.png');
+
         this.load.image('walk0', 'swagboi/walk0001.png');
         this.load.image('walk1', 'swagboi/walk0002.png');
         this.load.image('walk2', 'swagboi/walk0003.png');

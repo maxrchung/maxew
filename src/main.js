@@ -1,6 +1,7 @@
 import { Boot } from './scenes/Boot';
 import { Game } from './scenes/Game';
 import { GameOver } from './scenes/GameOver';
+import { Help } from './scenes/Help';
 import { MainMenu } from './scenes/MainMenu';
 import { Preloader } from './scenes/Preloader';
 import { InvertPipeline } from './pipelines/InvertPipeline';
@@ -17,7 +18,7 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [Boot, Preloader, MainMenu, Game, GameOver],
+    scene: [Boot, Preloader, MainMenu, Help, Game, GameOver],
     pipeline: {
         Invert: InvertPipeline,
     },

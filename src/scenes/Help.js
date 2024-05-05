@@ -9,9 +9,9 @@ export class Help extends Scene {
     create() {
         const invertPipeline = this.renderer.pipelines.get('Invert');
 
-        createStutter(this, 'helptext', 960, 475);
+        createStutter(this, 'helptext', 960, 425);
 
-        const back = createStutter(this, 'back', 1160, 725);
+        const back = createStutter(this, 'back', 960, 800);
         back.setInteractive()
             .on('pointerdown', () => this.scene.start('MainMenu'))
             .on('pointerover', () => back.setPipeline(invertPipeline))

@@ -51,6 +51,6 @@ export class Boot extends Scene {
             })
             .play();
 
-        this.scene.start('GameOver');
+        this.scene.start('MainMenu');
     }
 }

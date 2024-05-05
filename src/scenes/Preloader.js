@@ -1,14 +1,11 @@
-import { Scene } from 'phaser';
+import {Scene} from 'phaser';
 
-export class Preloader extends Scene
-{
-    constructor ()
-    {
+export class Preloader extends Scene {
+    constructor() {
         super('Preloader');
     }
 
-    init ()
-    {
+    init() {
         //  We loaded this image in our Boot Scene, so we can display it here
         this.add.image(512, 384, 'background');
 
@@ -16,7 +13,7 @@ export class Preloader extends Scene
         this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
 
         //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-        const bar = this.add.rectangle(512-230, 384, 4, 28, 0xffffff);
+        const bar = this.add.rectangle(512 - 230, 384, 4, 28, 0xffffff);
 
         //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
         this.load.on('progress', (progress) => {
@@ -27,16 +24,24 @@ export class Preloader extends Scene
         });
     }
 
-    preload ()
-    {
+    preload() {
         //  Load the assets for the game - Replace with your own assets
         this.load.setPath('assets');
 
         this.load.image('logo', 'logo.png');
+
+        this.load.image('walk0', 'swagboi/walk0001.png');
+        this.load.image('walk1', 'swagboi/walk0002.png');
+        this.load.image('walk2', 'swagboi/walk0003.png');
+        this.load.image('walk3', 'swagboi/walk0004.png');
+
+        this.load.image('idle0', 'swagboi/idle0001.png');
+        this.load.image('idle1', 'swagboi/idle0002.png');
+        this.load.image('idle2', 'swagboi/idle0003.png');
+        this.load.image('idle3', 'swagboi/idle0004.png');
     }
 
-    create ()
-    {
+    create() {
         //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
         //  For example, you can define global animations here, so we can use them in other scenes.
 

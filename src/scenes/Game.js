@@ -1,23 +1,39 @@
-import { Scene } from 'phaser';
+import {Scene} from 'phaser';
 
-export class Game extends Scene
-{
-    constructor ()
-    {
+export class Game extends Scene {
+    constructor() {
         super('Game');
     }
 
-    create ()
-    {
+    create() {
         this.cameras.main.setBackgroundColor(0x00ff00);
 
         this.add.image(512, 384, 'background').setAlpha(0.5);
 
-        this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        }).setOrigin(0.5);
+        this.anims.create({
+            key: 'walk',
+            frames: [
+                {key: 'walk0'},
+                {key: 'walk1'},
+                {key: 'walk2'},
+                {key: 'walk3'}
+            ],
+            frameRate: 12,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: 'idle',
+            frames: [
+                {key: 'idle0'},
+                {key: 'idle1'},
+                {key: 'idle2'},
+                {key: 'idle3'}
+            ],
+            frameRate: 12,
+            repeat: -1,
+        });
+
+        this.add.sprite(512, 384, 'idle0').play('idle');
 
         this.input.once('pointerdown', () => {
 

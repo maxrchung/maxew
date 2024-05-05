@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import {Scene} from 'phaser';
 
 export class Game extends Scene {
     constructor() {
@@ -29,12 +29,30 @@ export class Game extends Scene {
             repeat: -1,
         });
         this.anims.create({
+            key: 'walk_jump_warmup',
+            frames: [
+                {key: 'walk_jump06'}, {key: 'walk_jump07'}, {key: 'walk_jump08'}, {key: 'walk_jump09'},
+                {key: 'walk_jump10'},
+            ],
+            frameRate: 30,
+            repeat: 0,
+        });
+        this.anims.create({
+            key: 'walk_jump_loop',
+            frames: [
+                {key: 'walk_jump11'}, {key: 'walk_jump12'}, {key: 'walk_jump13'}, {key: 'walk_jump14'},
+                {key: 'walk_jump15'},
+            ],
+            frameRate: 12,
+            repeat: -1,
+        })
+        this.anims.create({
             key: 'idle',
             frames: [
-                { key: 'idle0' },
-                { key: 'idle1' },
-                { key: 'idle2' },
-                { key: 'idle3' },
+                {key: 'idle0'},
+                {key: 'idle1'},
+                {key: 'idle2'},
+                {key: 'idle3'},
             ],
             frameRate: 12,
             repeat: -1,
@@ -42,6 +60,11 @@ export class Game extends Scene {
 
         this.player = this.physics.add.sprite(512, 384, 'idle0').play('idle');
         this.player.body.setSize(38, 100);
+        this.player.on('animationcomplete', (animation) => {
+            if (animation.key === 'walk_jump_warmup') {
+                this.player.play('walk_jump_loop');
+            }
+        });
 
         var ground = this.add.rectangle(
             0,
@@ -64,18 +87,22 @@ export class Game extends Scene {
         if (this.keys.left.isDown || this.keys2.left.isDown) {
             this.player.setVelocityX(-160);
             this.player.setFlipX(true);
-            this.player.play('walk', true);
+            if (this.player.body.touching.down)
+                this.player.play('walk', true);
         } else if (this.keys.right.isDown || this.keys2.right.isDown) {
             this.player.setVelocityX(160);
             this.player.setFlipX(false);
-            this.player.play('walk', true);
+            if (this.player.body.touching.down)
+                this.player.play('walk', true);
         } else {
             this.player.setVelocityX(0);
-            this.player.play('idle', true);
+            if (this.player.body.touching.down)
+                this.player.play('idle', true);
         }
 
         if (this.keys.space.isDown && this.player.body.touching.down) {
             this.player.setVelocityY(-330);
+            this.player.play('walk_jump_warmup');
             // This sounds seems to be triggering multiple times. It's pretty loud/annoying so I commented it out for now.
             // this.sound.add('jump', { volume: 0.5 }).play();
         }
@@ -86,7 +113,7 @@ export class Game extends Scene {
         }
 
         if (this.keys2.escape.isDown) {
-            this.sound.add('nice', { volume: 0.5 }).play();
+            this.sound.add('nice', {volume: 0.5}).play();
             this.scene.start('GameOver');
         }
     }

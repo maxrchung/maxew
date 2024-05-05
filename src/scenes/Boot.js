@@ -44,6 +44,23 @@ export class Boot extends Scene {
         this.load.image('idle2', 'swagboi/idle0003.png');
         this.load.image('idle3', 'swagboi/idle0004.png');
 
+        this.load.image('walk_jump00', 'swagboi/walk_jump0001.png');
+        this.load.image('walk_jump01', 'swagboi/walk_jump0002.png');
+        this.load.image('walk_jump02', 'swagboi/walk_jump0003.png');
+        this.load.image('walk_jump03', 'swagboi/walk_jump0004.png');
+        this.load.image('walk_jump04', 'swagboi/walk_jump0005.png');
+        this.load.image('walk_jump05', 'swagboi/walk_jump0006.png');
+        this.load.image('walk_jump06', 'swagboi/walk_jump0007.png');
+        this.load.image('walk_jump07', 'swagboi/walk_jump0008.png');
+        this.load.image('walk_jump08', 'swagboi/walk_jump0009.png');
+        this.load.image('walk_jump09', 'swagboi/walk_jump0010.png');
+        this.load.image('walk_jump10', 'swagboi/walk_jump0011.png');
+        this.load.image('walk_jump11', 'swagboi/walk_jump0012.png');
+        this.load.image('walk_jump12', 'swagboi/walk_jump0013.png');
+        this.load.image('walk_jump13', 'swagboi/walk_jump0014.png');
+        this.load.image('walk_jump14', 'swagboi/walk_jump0015.png');
+        this.load.image('walk_jump15', 'swagboi/walk_jump0016.png');
+
         this.load.image('bezel', 'bezel.png');
     }
 

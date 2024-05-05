@@ -1,4 +1,4 @@
-import {Scene} from 'phaser';
+import { Scene } from 'phaser';
 
 const load = (scene, key) => {
     scene.load.image(`${key}1`, `${key}1.png`);
@@ -16,6 +16,8 @@ export class Boot extends Scene {
 
         //  Load the assets for the game - Replace with your own assets
         this.load.setPath('assets');
+
+        this.load.audio('max300', 'max300.mp3');
 
         load(this, 'maxew');
         load(this, 'play');
@@ -39,6 +41,12 @@ export class Boot extends Scene {
     }
 
     create() {
+        this.sound
+            .add('max300', {
+                volume: 0.1,
+                loop: true,
+            })
+            .play();
         this.scene.start('MainMenu');
     }
 }

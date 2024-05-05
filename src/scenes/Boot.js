@@ -74,7 +74,7 @@ export class Boot extends Scene {
             })
             .play();
 
-        this.scene.start('MainMenu');
+        this.scene.start('Game');
         // this.scene.start('CollisionTester');
     }
 }

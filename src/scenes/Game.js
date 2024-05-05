@@ -1,4 +1,4 @@
-import {Scene} from 'phaser';
+import { Scene } from 'phaser';
 
 export class Game extends Scene {
     constructor() {
@@ -7,7 +7,7 @@ export class Game extends Scene {
 
     create() {
         // Uncomment to apply distortion effect
-        // this.cameras.main.setPostPipeline('Reflect');
+        this.cameras.main.setPostPipeline('Reflect');
         this.cameras.main.setBackgroundColor(0x00ff00);
 
         this.keys = this.input.keyboard.createCursorKeys();
@@ -16,25 +16,42 @@ export class Game extends Scene {
             right: Phaser.Input.Keyboard.KeyCodes.D,
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
             shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+            escape: Phaser.Input.Keyboard.KeyCodes.ESC,
         });
 
         this.anims.create({
             key: 'walk',
-            frames: [{key: 'walk0'}, {key: 'walk1'}, {key: 'walk2'}, {key: 'walk3'},],
+            frames: [
+                { key: 'walk0' },
+                { key: 'walk1' },
+                { key: 'walk2' },
+                { key: 'walk3' },
+            ],
             frameRate: 12,
             repeat: -1,
         });
         this.anims.create({
             key: 'idle',
-            frames: [{key: 'idle0'}, {key: 'idle1'}, {key: 'idle2'}, {key: 'idle3'},],
+            frames: [
+                { key: 'idle0' },
+                { key: 'idle1' },
+                { key: 'idle2' },
+                { key: 'idle3' },
+            ],
             frameRate: 12,
             repeat: -1,
         });
 
-        this.player = this.physics.add.sprite(512, 384, 'idle0').play('idle')
-        this.player.body.setSize(38, 100)
+        this.player = this.physics.add.sprite(512, 384, 'idle0').play('idle');
+        this.player.body.setSize(38, 100);
 
-        var ground = this.add.rectangle(0, this.cameras.main.height, this.cameras.main.width, 100, 0xFF000000);
+        var ground = this.add.rectangle(
+            0,
+            this.cameras.main.height,
+            this.cameras.main.width,
+            100,
+            0xff000000
+        );
         ground.setOrigin(0, 1); // Set the origin to the top-left corner
 
         // Add the rectangle to the physics world as a static group
@@ -61,11 +78,18 @@ export class Game extends Scene {
 
         if (this.keys.space.isDown && this.player.body.touching.down) {
             this.player.setVelocityY(-330);
+            // This sounds seems to be triggering multiple times. It's pretty loud/annoying so I commented it out for now.
+            // this.sound.add('jump', { volume: 0.5 }).play();
         }
         if (!this.keys.space.isDown) {
             this.player.body.setGravity(0, 1200);
         } else {
             this.player.body.setGravity(0, 300);
+        }
+
+        if (this.keys2.escape.isDown) {
+            this.sound.add('nice', { volume: 0.5 }).play();
+            this.scene.start('GameOver');
         }
     }
 }

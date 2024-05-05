@@ -1,10 +1,10 @@
-import { Boot } from './scenes/Boot';
-import { Game } from './scenes/Game';
-import { GameOver } from './scenes/GameOver';
-import { Help } from './scenes/Help';
-import { MainMenu } from './scenes/MainMenu';
-import { InvertPipeline } from './pipelines/InvertPipeline';
-import { ReflectPipeline } from './pipelines/ReflectPipeline';
+import {Boot} from './scenes/Boot';
+import {Game} from './scenes/Game';
+import {GameOver} from './scenes/GameOver';
+import {Help} from './scenes/Help';
+import {MainMenu} from './scenes/MainMenu';
+import {InvertPipeline} from './pipelines/InvertPipeline';
+import {ReflectPipeline} from './pipelines/ReflectPipeline';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -22,6 +22,13 @@ const config = {
     pipeline: {
         Invert: InvertPipeline,
         Reflect: ReflectPipeline,
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {y: 300},
+            debug: true,
+        },
     },
 };
 

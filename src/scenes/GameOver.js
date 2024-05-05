@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import createStutter from '../createStutter';
 
 export class GameOver extends Scene {
     constructor() {
@@ -6,23 +7,15 @@ export class GameOver extends Scene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(0xff0000);
+        const invertPipeline = this.renderer.pipelines.get('Invert');
 
-        this.add.image(512, 384, 'background').setAlpha(0.5);
+        createStutter(this, 'endtext', 960, 420);
 
-        this.add
-            .text(512, 384, 'Game Over', {
-                fontFamily: 'Arial Black',
-                fontSize: 64,
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 8,
-                align: 'center',
-            })
-            .setOrigin(0.5);
-
-        this.input.once('pointerdown', () => {
-            this.scene.start('MainMenu');
-        });
+        const replay = createStutter(this, 'replay', 960, 620);
+        replay
+            .setInteractive()
+            .on('pointerdown', () => this.scene.start('Game'))
+            .on('pointerover', () => replay.setPipeline(invertPipeline))
+            .on('pointerout', () => replay.resetPipeline());
     }
 }

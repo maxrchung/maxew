@@ -1,4 +1,4 @@
-export default createStutter = (scene, key, x, y) => {
+export default function createStutter(scene, key, x, y) {
     scene.anims.create({
         key,
         frames: [{ key: key + '1' }, { key: key + '2' }],
@@ -8,4 +8,4 @@ export default createStutter = (scene, key, x, y) => {
     const sprite = scene.add.sprite(x, y);
     sprite.play(key);
     return sprite;
-};
+}

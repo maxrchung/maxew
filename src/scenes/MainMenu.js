@@ -30,6 +30,9 @@ export class MainMenu extends Scene {
             .on('pointerout', () => play.resetPipeline());
 
         const help = this.add.sprite(1160, 725).play('help');
-        help.setInteractive().on('pointerdown', () => this.scene.start('Help'));
+        help.setInteractive()
+            .on('pointerdown', () => this.scene.start('Help'))
+            .on('pointerover', () => help.setPipeline(invertPipeline))
+            .on('pointerout', () => help.resetPipeline());
     }
 }

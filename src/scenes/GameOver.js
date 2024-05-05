@@ -7,15 +7,13 @@ export class GameOver extends Scene {
     }
 
     create() {
-        const invertPipeline = this.renderer.pipelines.get('Invert');
-
         createStutter(this, 'endtext', 960, 420);
 
         const replay = createStutter(this, 'replay', 960, 620);
         replay
             .setInteractive()
             .on('pointerdown', () => this.scene.start('Game'))
-            .on('pointerover', () => replay.setPipeline(invertPipeline))
+            .on('pointerover', () => replay.setPipeline('Invert'))
             .on('pointerout', () => replay.resetPipeline());
     }
 }

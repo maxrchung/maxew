@@ -19,8 +19,4 @@ export class InvertPipeline extends Phaser.Renderer.WebGL.Pipelines
     constructor(game) {
         super({ game, fragShader });
     }
-
-    onPreRender() {
-        console.log('r');
-    }
 }

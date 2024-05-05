@@ -31,11 +31,10 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk_jump_warmup',
             frames: [
-                {key: 'walk_jump00'}, {key: 'walk_jump01'}, {key: 'walk_jump02'}, {key: 'walk_jump03'},
-                {key: 'walk_jump04'}, {key: 'walk_jump05'}, {key: 'walk_jump06'}, {key: 'walk_jump07'},
-                {key: 'walk_jump08'}, {key: 'walk_jump09'}, {key: 'walk_jump10'},
+                {key: 'walk_jump06'}, {key: 'walk_jump07'}, {key: 'walk_jump08'}, {key: 'walk_jump09'},
+                {key: 'walk_jump10'},
             ],
-            frameRate: 60,
+            frameRate: 30,
             repeat: 0,
         });
         this.anims.create({

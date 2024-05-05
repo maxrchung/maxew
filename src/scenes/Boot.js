@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import {Scene} from 'phaser';
 
 const load = (scene, key) => {
     scene.load.image(`${key}1`, `${key}1.png`);
@@ -34,6 +34,8 @@ export class Boot extends Scene {
         this.load.image('idle1', 'swagboi/idle0002.png');
         this.load.image('idle2', 'swagboi/idle0003.png');
         this.load.image('idle3', 'swagboi/idle0004.png');
+
+        this.load.image('bezel', 'bezel.png');
     }
 
     create() {

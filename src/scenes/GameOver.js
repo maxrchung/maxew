@@ -13,7 +13,7 @@ export class GameOver extends Scene {
 
         const replay = createStutter(this, 'replay', 960, 620);
         replay
-            .setInteractive()
+            .setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.scene.start('Game'))
             .on('pointerover', () => replay.setPipeline('Invert'))
             .on('pointerout', () => replay.resetPipeline());

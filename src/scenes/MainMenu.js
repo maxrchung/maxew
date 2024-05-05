@@ -12,13 +12,13 @@ export class MainMenu extends Scene {
         createStutter(this, 'maxew', 938, 475);
 
         const play = createStutter(this, 'play', 760, 725);
-        play.setInteractive()
+        play.setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.scene.start('Game'))
             .on('pointerover', () => play.setPipeline('Invert'))
             .on('pointerout', () => play.resetPipeline());
 
         const help = createStutter(this, 'help', 1160, 725);
-        help.setInteractive()
+        help.setInteractive({ useHandCursor: true })
             .on('pointerdown', () => this.scene.start('Help'))
             .on('pointerover', () => help.setPipeline('Invert'))
             .on('pointerout', () => help.resetPipeline());

@@ -6,6 +6,9 @@ export class Game extends Scene {
     }
 
     create() {
+        // Uncomment to apply distortion effect
+        // this.cameras.main.setPostPipeline('Reflect');
+
         this.cameras.main.setBackgroundColor(0x00ff00);
 
         this.anims.create({

@@ -13,7 +13,11 @@ export class GameOver extends Scene {
 
         const replay = createStutter(this, 'replay', 960, 620);
         replay
-            .setInteractive({ useHandCursor: true })
+            .setInteractive({
+                useHandCursor: true,
+                hitArea: new Phaser.Geom.Rectangle(0, -10, 311, 120),
+                hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+            })
             .on('pointerdown', () => this.scene.start('Game'))
             .on('pointerover', () => replay.setPipeline('Invert'))
             .on('pointerout', () => replay.resetPipeline());

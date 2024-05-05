@@ -12,7 +12,11 @@ export class Help extends Scene {
         createStutter(this, 'helptext', 960, 425);
 
         const back = createStutter(this, 'back', 960, 800);
-        back.setInteractive()
+        back.setInteractive({
+            useHandCursor: true,
+            hitArea: new Phaser.Geom.Rectangle(0, -75, 296, 115),
+            hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+        })
             .on('pointerdown', () => this.scene.start('MainMenu'))
             .on('pointerover', () => back.setPipeline('Invert'))
             .on('pointerout', () => back.resetPipeline());

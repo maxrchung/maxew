@@ -1,10 +1,11 @@
-import {Boot} from './scenes/Boot';
-import {Game} from './scenes/Game';
-import {GameOver} from './scenes/GameOver';
-import {Help} from './scenes/Help';
-import {MainMenu} from './scenes/MainMenu';
-import {InvertPipeline} from './pipelines/InvertPipeline';
-import {ReflectPipeline} from './pipelines/ReflectPipeline';
+import { Boot } from './scenes/Boot';
+import { Game } from './scenes/Game';
+import { GameOver } from './scenes/GameOver';
+import { Help } from './scenes/Help';
+import { MainMenu } from './scenes/MainMenu';
+import { InvertPipeline } from './pipelines/InvertPipeline';
+import { ReflectPipeline } from './pipelines/ReflectPipeline';
+import { CollisionTester } from './scenes/CollisionTester';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -18,7 +19,7 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [Boot, MainMenu, Help, Game, GameOver],
+    scene: [Boot, MainMenu, Help, Game, GameOver, CollisionTester],
     pipeline: {
         Invert: InvertPipeline,
         Reflect: ReflectPipeline,
@@ -26,7 +27,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 300},
+            gravity: { y: 300 },
             debug: true,
         },
     },

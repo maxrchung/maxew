@@ -18,7 +18,10 @@ export class GameOver extends Scene {
                 hitArea: new Phaser.Geom.Rectangle(0, -10, 311, 120),
                 hitAreaCallback: Phaser.Geom.Rectangle.Contains,
             })
-            .on('pointerdown', () => this.scene.start('Game'))
+            .on('pointerdown', () => {
+                this.scene.start('Game');
+                this.sound.add('click', { volume: 0.5 }).play();
+            })
             .on('pointerover', () => replay.setPipeline('Invert'))
             .on('pointerout', () => replay.resetPipeline());
     }

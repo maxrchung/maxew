@@ -18,7 +18,10 @@ export class MainMenu extends Scene {
             hitArea: new Phaser.Geom.Rectangle(0, -40, 299, 135),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         })
-            .on('pointerdown', () => this.scene.start('Game'))
+            .on('pointerdown', () => {
+                this.scene.start('Game');
+                this.sound.add('click', { volume: 0.5 }).play();
+            })
             .on('pointerover', () => play.setPipeline('Invert'))
             .on('pointerout', () => play.resetPipeline());
 
@@ -28,7 +31,10 @@ export class MainMenu extends Scene {
             hitArea: new Phaser.Geom.Rectangle(0, -40, 299, 125),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         })
-            .on('pointerdown', () => this.scene.start('Help'))
+            .on('pointerdown', () => {
+                this.scene.start('Help');
+                this.sound.add('click', { volume: 0.5 }).play();
+            })
             .on('pointerover', () => help.setPipeline('Invert'))
             .on('pointerout', () => help.resetPipeline());
     }

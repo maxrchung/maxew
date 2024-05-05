@@ -17,7 +17,10 @@ export class Help extends Scene {
             hitArea: new Phaser.Geom.Rectangle(0, -75, 296, 115),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         })
-            .on('pointerdown', () => this.scene.start('MainMenu'))
+            .on('pointerdown', () => {
+                this.scene.start('MainMenu');
+                this.sound.add('click', { volume: 0.5 }).play();
+            })
             .on('pointerover', () => back.setPipeline('Invert'))
             .on('pointerout', () => back.resetPipeline());
     }

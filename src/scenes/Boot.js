@@ -18,8 +18,8 @@ export class Boot extends Scene {
         this.load.setPath('assets');
 
         this.load.audio('max300', 'max300.mp3');
-        this.load.audio('jump', 'jump.mp3');
         this.load.audio('click', 'click.mp3');
+        this.load.audio('jump', 'jump.mp3');
         this.load.audio('nice', 'nice.mp3');
 
         load(this, 'maxew');
@@ -50,6 +50,7 @@ export class Boot extends Scene {
                 loop: true,
             })
             .play();
-        this.scene.start('MainMenu');
+
+        this.scene.start('GameOver');
     }
 }

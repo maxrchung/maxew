@@ -7,9 +7,9 @@ export class MainMenu extends Scene {
     }
 
     create() {
-        // this.cameras.main.setPostPipeline('Reflect');
+        this.cameras.main.setPostPipeline('Reflect');
 
-        createStutter(this, 'maxew', 960, 475);
+        createStutter(this, 'maxew', 938, 475);
 
         const play = createStutter(this, 'play', 760, 725);
         play.setInteractive()

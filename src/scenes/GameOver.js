@@ -7,6 +7,8 @@ export class GameOver extends Scene {
     }
 
     create() {
+        this.cameras.main.setPostPipeline('Reflect');
+
         createStutter(this, 'endtext', 960, 420);
 
         const replay = createStutter(this, 'replay', 960, 620);

@@ -5,6 +5,7 @@ import { Help } from './scenes/Help';
 import { MainMenu } from './scenes/MainMenu';
 import { InvertPipeline } from './pipelines/InvertPipeline';
 import { ReflectPipeline } from './pipelines/ReflectPipeline';
+import { ReflectLinePipeline } from './pipelines/ReflectLinePipeline';
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -22,6 +23,7 @@ const config = {
     pipeline: {
         Invert: InvertPipeline,
         Reflect: ReflectPipeline,
+        ReflectLine: ReflectLinePipeline,
     },
 };
 

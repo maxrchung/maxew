@@ -1,8 +1,8 @@
 import { Scene } from 'phaser';
 
 const load = (scene, key) => {
-    scene.load.image(`${key}1`, `assets/${key}1.png`);
-    scene.load.image(`${key}2`, `assets/${key}2.png`);
+    scene.load.image(`${key}1`, `${key}1.png`);
+    scene.load.image(`${key}2`, `${key}2.png`);
 };
 
 export class Boot extends Scene {
@@ -14,6 +14,9 @@ export class Boot extends Scene {
         //  The Boot Scene is typically used to load in any assets you require for your Preloader, such as a game logo or background.
         //  The smaller the file size of the assets, the better, as the Boot Scene itself has no preloader.
 
+        //  Load the assets for the game - Replace with your own assets
+        this.load.setPath('assets');
+
         load(this, 'maxew');
         load(this, 'play');
         load(this, 'help');
@@ -21,6 +24,16 @@ export class Boot extends Scene {
         load(this, 'back');
         load(this, 'endtext');
         load(this, 'replay');
+
+        this.load.image('walk0', 'swagboi/walk0001.png');
+        this.load.image('walk1', 'swagboi/walk0002.png');
+        this.load.image('walk2', 'swagboi/walk0003.png');
+        this.load.image('walk3', 'swagboi/walk0004.png');
+
+        this.load.image('idle0', 'swagboi/idle0001.png');
+        this.load.image('idle1', 'swagboi/idle0002.png');
+        this.load.image('idle2', 'swagboi/idle0003.png');
+        this.load.image('idle3', 'swagboi/idle0004.png');
     }
 
     create() {

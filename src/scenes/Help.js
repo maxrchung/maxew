@@ -7,14 +7,14 @@ export class Help extends Scene {
     }
 
     create() {
-        const invertPipeline = this.renderer.pipelines.get('Invert');
+        this.cameras.main.setPostPipeline('Reflect');
 
         createStutter(this, 'helptext', 960, 425);
 
         const back = createStutter(this, 'back', 960, 800);
         back.setInteractive()
             .on('pointerdown', () => this.scene.start('MainMenu'))
-            .on('pointerover', () => back.setPipeline(invertPipeline))
+            .on('pointerover', () => back.setPipeline('Invert'))
             .on('pointerout', () => back.resetPipeline());
     }
 }

@@ -1,4 +1,4 @@
-import {Scene} from 'phaser';
+import { Scene } from 'phaser';
 
 export class Game extends Scene {
     constructor() {
@@ -8,15 +8,13 @@ export class Game extends Scene {
     create() {
         this.cameras.main.setBackgroundColor(0x00ff00);
 
-        this.add.image(512, 384, 'background').setAlpha(0.5);
-
         this.anims.create({
             key: 'walk',
             frames: [
-                {key: 'walk0'},
-                {key: 'walk1'},
-                {key: 'walk2'},
-                {key: 'walk3'}
+                { key: 'walk0' },
+                { key: 'walk1' },
+                { key: 'walk2' },
+                { key: 'walk3' },
             ],
             frameRate: 12,
             repeat: -1,
@@ -24,10 +22,10 @@ export class Game extends Scene {
         this.anims.create({
             key: 'idle',
             frames: [
-                {key: 'idle0'},
-                {key: 'idle1'},
-                {key: 'idle2'},
-                {key: 'idle3'}
+                { key: 'idle0' },
+                { key: 'idle1' },
+                { key: 'idle2' },
+                { key: 'idle3' },
             ],
             frameRate: 12,
             repeat: -1,
@@ -36,9 +34,7 @@ export class Game extends Scene {
         this.add.sprite(512, 384, 'idle0').play('idle');
 
         this.input.once('pointerdown', () => {
-
             this.scene.start('GameOver');
-
         });
     }
 }

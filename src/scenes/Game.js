@@ -1,8 +1,28 @@
 import {Scene} from 'phaser';
 
+const JUMP_HEIGHT = 2.25;
+const TIME_TO_JUMP_APEX = 0.12;
+const UPWARD_MOVEMENT_MULTIPLIER = 1.0;
+const DOWNWARD_MOVEMENT_MULTIPLIER = 5.23;
+const RELEASE_GRAVITY_MULTIPLIER = 5.23;
+const TERMINAL_VELOCITY = 999.0;
+const COYOTE_TIME = 0.15;
+const MAX_SPEED = 250.0;
+const MAX_ACCELERATION = 740.0;
+const MAX_DECELERATION = 740.0;
+const MAX_TURN_SPEED = 999.0;
+
+const GRAVITY = 2 * JUMP_HEIGHT / (TIME_TO_JUMP_APEX * TIME_TO_JUMP_APEX);
+
 export class Game extends Scene {
     constructor() {
         super('Game');
+
+        this.gravityMultiplier = 1.0;
+        this.jumpRequested = false;
+        this.jumpBufferCounter = 0;
+        this.currentlyJumping = false;
+        this.coyoteTimeCounter = 0;
     }
 
     create() {
@@ -21,39 +41,25 @@ export class Game extends Scene {
 
         this.anims.create({
             key: 'walk',
-            frames: [
-                {key: 'walk0'}, {key: 'walk1'}, {key: 'walk2'}, {key: 'walk3'},
-                {key: 'walk4'}, {key: 'walk5'}, {key: 'walk6'}, {key: 'walk7'},
-            ],
+            frames: [{key: 'walk0'}, {key: 'walk1'}, {key: 'walk2'}, {key: 'walk3'}, {key: 'walk4'}, {key: 'walk5'}, {key: 'walk6'}, {key: 'walk7'},],
             frameRate: 30,
             repeat: -1,
         });
         this.anims.create({
             key: 'walk_jump_warmup',
-            frames: [
-                {key: 'walk_jump06'}, {key: 'walk_jump07'}, {key: 'walk_jump08'}, {key: 'walk_jump09'},
-                {key: 'walk_jump10'},
-            ],
+            frames: [{key: 'walk_jump06'}, {key: 'walk_jump07'}, {key: 'walk_jump08'}, {key: 'walk_jump09'}, {key: 'walk_jump10'},],
             frameRate: 30,
             repeat: 0,
         });
         this.anims.create({
             key: 'walk_jump_loop',
-            frames: [
-                {key: 'walk_jump11'}, {key: 'walk_jump12'}, {key: 'walk_jump13'}, {key: 'walk_jump14'},
-                {key: 'walk_jump15'},
-            ],
+            frames: [{key: 'walk_jump11'}, {key: 'walk_jump12'}, {key: 'walk_jump13'}, {key: 'walk_jump14'}, {key: 'walk_jump15'},],
             frameRate: 12,
             repeat: -1,
         })
         this.anims.create({
             key: 'idle',
-            frames: [
-                {key: 'idle0'},
-                {key: 'idle1'},
-                {key: 'idle2'},
-                {key: 'idle3'},
-            ],
+            frames: [{key: 'idle0'}, {key: 'idle1'}, {key: 'idle2'}, {key: 'idle3'},],
             frameRate: 12,
             repeat: -1,
         });
@@ -66,13 +72,7 @@ export class Game extends Scene {
             }
         });
 
-        var ground = this.add.rectangle(
-            0,
-            this.cameras.main.height,
-            this.cameras.main.width,
-            100,
-            0xff000000
-        );
+        var ground = this.add.rectangle(0, this.cameras.main.height, this.cameras.main.width, 100, 0xff000000);
         ground.setOrigin(0, 1); // Set the origin to the top-left corner
 
         // Add the rectangle to the physics world as a static group
@@ -83,33 +83,139 @@ export class Game extends Scene {
         this.physics.add.collider(this.player, groundGroup);
     }
 
-    update(time, delta) {
+    get_movement_vector() {
+        var movement_vector = {x: 0, y: 0};
         if (this.keys.left.isDown || this.keys2.left.isDown) {
-            this.player.setVelocityX(-160);
-            this.player.setFlipX(true);
-            if (this.player.body.touching.down)
-                this.player.play('walk', true);
-        } else if (this.keys.right.isDown || this.keys2.right.isDown) {
-            this.player.setVelocityX(160);
-            this.player.setFlipX(false);
-            if (this.player.body.touching.down)
-                this.player.play('walk', true);
+            movement_vector.x += 1;
+        }
+        if (this.keys.right.isDown || this.keys2.right.isDown) {
+            movement_vector.x -= 1;
+        }
+        if (this.keys.space.isDown) {
+            movement_vector.y += 1;
+        }
+        if (this.input.gamepad.pad1) {
+            movement_vector.x += -this.input.gamepad.pad1.leftStick.x;
+            if (this.input.gamepad.pad1.A) movement_vector.y += 1;
+            if (this.input.gamepad.pad1.left) movement_vector.x += 1;
+            if (this.input.gamepad.pad1.right) movement_vector.x -= 1;
+
+        }
+        // clamp each axis to [-1, 1]
+        if (movement_vector.x > 1) {
+            movement_vector.x = 1;
+        } else if (movement_vector.x < -1) {
+            movement_vector.x = -1;
+        }
+        if (movement_vector.y > 1) {
+            movement_vector.y = 1;
+        } else if (movement_vector.y < -1) {
+            movement_vector.y = -1;
+        }
+        return movement_vector;
+    }
+
+    update(time, delta) {
+        // Fucking hell use a second delta like a normal person
+        delta = delta / 1000;
+
+        // Recalculate gravity
+        this.player.body.setGravity(0, GRAVITY * this.gravityMultiplier);
+
+        var onGround = this.player.body.touching.down;
+        var input = this.get_movement_vector();
+        var jumpPressed = input.y > 0;
+        var curVel = this.player.body.velocity;
+
+        // MOVE
+        var desiredXVel = input.x * MAX_SPEED;
+        var maxSpeedChange = 0;
+        if (input.x !== 0) {
+            if (Math.sign(input.x) !== Math.sign(curVel.x)) {
+                maxSpeedChange = MAX_TURN_SPEED * delta;
+            } else {
+                maxSpeedChange = MAX_ACCELERATION * delta;
+            }
         } else {
-            this.player.setVelocityX(0);
-            if (this.player.body.touching.down)
-                this.player.play('idle', true);
+            maxSpeedChange = MAX_DECELERATION * delta;
         }
 
-        if (this.keys.space.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-330);
-            this.player.play('walk_jump_warmup');
-            // This sounds seems to be triggering multiple times. It's pretty loud/annoying so I commented it out for now.
-            // this.sound.add('jump', { volume: 0.5 }).play();
-        }
-        if (!this.keys.space.isDown) {
-            this.player.body.setGravity(0, 1200);
+        var step = Math.min((Math.abs(curVel.x) - Math.abs(desiredXVel)), maxSpeedChange)
+        if (curVel.x < desiredXVel) {
+            this.player.setVelocityX(curVel.x + step);
         } else {
-            this.player.body.setGravity(0, 300);
+            this.player.setVelocityX(curVel.x - step);
+        }
+
+        // JUMP
+        if (jumpPressed) {
+            this.jumpRequested = true;
+        }
+
+        if (!this.currentlyJumping && !onGround) {
+            this.coyoteTimeCounter += delta;
+        } else {
+            this.coyoteTimeCounter = 0;
+        }
+
+        if (curVel.y < -0.01) {
+            if (onGround) {
+                this.gravityMultiplier = 1;
+            } else {
+                if (jumpPressed && this.currentlyJumping) {
+                    this.gravityMultiplier = UPWARD_MOVEMENT_MULTIPLIER;
+                } else {
+                    this.gravityMultiplier = RELEASE_GRAVITY_MULTIPLIER;
+                }
+            }
+        } else if (curVel.y > 0.01) {
+            if (onGround) {
+                this.gravityMultiplier = 1;
+            } else {
+                this.gravityMultiplier = DOWNWARD_MOVEMENT_MULTIPLIER;
+            }
+        } else {
+            if (onGround) {
+                this.currentlyJumping = false;
+            }
+            this.gravityMultiplier = 1;
+        }
+
+        if (curVel.y > TERMINAL_VELOCITY) {
+            this.player.setVelocityY(TERMINAL_VELOCITY);
+        }
+
+        if (this.jumpRequested) {
+            if (onGround || (this.coyoteTimeCounter > 0.03 && this.coyoteTimeCounter < COYOTE_TIME)) {
+                this.jumpRequested = false;
+                this.jumpBufferCounter = 0;
+                this.coyoteTimeCounter = 0;
+
+                var jumpSpeed = Math.sqrt(2 * GRAVITY * this.gravityMultiplier * JUMP_HEIGHT) * 10;
+                if (curVel.y > 0) {
+                    jumpSpeed -= curVel.y;
+                } else if (curVel.y < 0) {
+                    jumpSpeed += curVel.y;
+                }
+                this.player.setVelocityY(curVel.y - jumpSpeed);
+                this.currentlyJumping = true;
+                this.player.play('walk_jump_warmup');
+            }
+            this.jumpRequested = false;
+        }
+
+        if (curVel.x > 0.01) {
+            this.player.setFlipX(false);
+        } else if (curVel.x < -0.01) {
+            this.player.setFlipX(true);
+        }
+
+        if (onGround && !this.currentlyJumping) {
+            if (curVel.x != 0) {
+                this.player.play('walk', true);
+            } else {
+                this.player.play('idle', true);
+            }
         }
 
         if (this.keys2.escape.isDown) {

@@ -37,6 +37,6 @@ export class Boot extends Scene {
     }
 
     create() {
-        this.scene.start('GameOver');
+        this.scene.start('MainMenu');
     }
 }

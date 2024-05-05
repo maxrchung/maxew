@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 
-const collisions = [
+export const COLLISIONS = [
     [238, -68, 964, -4],
     [-6, -8, 960, 2],
     [-1, -9600, 60, 1],
@@ -17,19 +17,24 @@ const collisions = [
     [88, -501, 179, -330],
     [171, -430, 248, -236],
     [244, -341, 315, -266],
-    [223, -634, 305, -555],
+    [275, -594, 345, -530],
     [402, -641, 479, -568],
     [557, -637, 763, -565],
     [667, -689, 767, -592],
     [723, -735, 818, -659],
     [865, -1385, 910, -797],
-    [635, -851, 693, -779],
-    [494, -1000, 581, -759],
+
+    [613, -867, 667, -802],
+
+    [494, -1005, 555, -946],
+    [494, -970, 581, -800],
     [326, -1098, 455, -803],
     [155, -1203, 270, -800],
     [54, -1290, 115, -799],
-    [156, -1440, 915, -1367],
-    [202, -1500, 917, -1436],
+    [158, -1400, 933, -1372],
+    [224, -1500, 917, -1436],
+    [188, -1446, 916, -1398],
+
     [286, -1608, 344, -1493],
     [332, -1510, 730, -1470],
     [417, -1617, 477, -1504],
@@ -138,7 +143,8 @@ const collisions = [
     [899, -9567, 964, -9345], //door
 ];
 
-const startPosition = [426, -7356];
+// export const START_POS = [101, -110];
+export const START_POS = [95, -1586];
 
 export class CollisionTester extends Scene {
     constructor() {
@@ -155,7 +161,7 @@ export class CollisionTester extends Scene {
 
     create() {
         // Uncomment to apply distortion effect
-        this.cameras.main.setPostPipeline('Reflect');
+        // this.cameras.main.setPostPipeline('Reflect');
         this.cameras.main.setBackgroundColor(0x00ff00);
 
         this.keys = this.input.keyboard.createCursorKeys();
@@ -165,6 +171,7 @@ export class CollisionTester extends Scene {
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
             shift: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+            escape: Phaser.Input.Keyboard.KeyCodes.ESC,
         });
 
         const backLeft = this.add.rectangle(0, -9600, 960, 9600, 0xffffff);
@@ -180,7 +187,7 @@ export class CollisionTester extends Scene {
         mapRight.setOrigin(0, 0);
         mapRight.flipX = true;
 
-        for (const [x, y, x2, y2] of collisions) {
+        for (const [x, y, x2, y2] of COLLISIONS) {
             const collision = this.add.rectangle(
                 x,
                 y,
@@ -190,17 +197,15 @@ export class CollisionTester extends Scene {
                 0.5
             );
             collision.setOrigin(0, 0);
+            const text = this.add.text(x, y, `${x},${y}`);
+            text.setOrigin(0, 0);
         }
 
-        this.player = this.add.sprite(
-            startPosition[0],
-            startPosition[1],
-            'idle0'
-        );
+        this.player = this.add.sprite(START_POS[0], START_POS[1], 'idle0');
         this.player.setOrigin(0, 0);
         this.rect = this.add.rectangle(
-            startPosition[0],
-            startPosition[1],
+            START_POS[0],
+            START_POS[1],
             100,
             100,
             0xff0000,
@@ -250,6 +255,11 @@ export class CollisionTester extends Scene {
         this.rect.setPosition(x, y);
 
         this.cameras.main.startFollow(this.player);
+
+        if (this.keys2.escape.isDown) {
+            this.sound.add('nice', { volume: 0.5 }).play();
+            this.scene.start('Game');
+        }
 
         console.log('Position: ', x, y);
     }

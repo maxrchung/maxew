@@ -1,4 +1,4 @@
-import {Scene} from 'phaser';
+import { Scene } from 'phaser';
 
 const load = (scene, key) => {
     scene.load.image(`${key}1`, `${key}1.png`);
@@ -55,7 +55,7 @@ export class Boot extends Scene {
             })
             .play();
 
-        this.scene.start('MainMenu');
-        // this.scene.start('CollisionTester');
+        // this.scene.start('MainMenu');
+        this.scene.start('CollisionTester');
     }
 }

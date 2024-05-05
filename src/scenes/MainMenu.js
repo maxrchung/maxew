@@ -15,16 +15,21 @@ export class MainMenu extends Scene {
     }
 
     create() {
+        const invertPipeline = this.renderer.pipelines.get('Invert');
+
         createStutter(this, 'maxew');
         createStutter(this, 'play');
         createStutter(this, 'help');
 
         this.add.sprite(960, 475).play('maxew');
-        this.add.sprite(760, 725).play('play');
-        this.add.sprite(1160, 725).play('help');
 
-        this.input.once('pointerdown', () => {
-            this.scene.start('Game');
-        });
+        const play = this.add.sprite(760, 725).play('play');
+        play.setInteractive()
+            .on('pointerdown', () => this.scene.start('Game'))
+            .on('pointerover', () => play.setPipeline(invertPipeline))
+            .on('pointerout', () => play.resetPipeline());
+
+        const help = this.add.sprite(1160, 725).play('help');
+        help.setInteractive().on('pointerdown', () => this.scene.start('Help'));
     }
 }

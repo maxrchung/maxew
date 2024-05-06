@@ -1,7 +1,7 @@
-maxew is a 2D platformer made over a 2-day game jam. The theme of the game jam was "Reflect".
+maxew is a 2D platformer made over a 2-day game jam. The theme of the game jam was "Reflect". We decided to make a platformer that reflects the level across the middle of the screen. The game has hidden sections that can only be seen on the left or right side.
 
 ## Play
-https://resonant-pika-f173d1.netlify.app
+https://maxew.maxrchung.com
 
 ## Video
 https://youtu.be/e7XMgUWp1cU

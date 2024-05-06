@@ -22,7 +22,6 @@ export class Game extends Scene {
 
         this.gravityMultiplier = 1.0;
         this.jumpRequested = false;
-        this.jumpBufferCounter = 0;
         this.currentlyJumping = false;
         this.coyoteTimeCounter = 0;
     }
@@ -30,6 +29,7 @@ export class Game extends Scene {
     create() {
         // Uncomment to apply distortion effect
         this.cameras.main.setPostPipeline('Reflect');
+        this.jumpSound = this.sound.add('jump', {volume: 0.02});
 
         this.keys = this.input.keyboard.createCursorKeys();
         this.keys2 = this.input.keyboard.addKeys({
@@ -56,14 +56,14 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk',
             frames: [
-                { key: 'walk0' },
-                { key: 'walk1' },
-                { key: 'walk2' },
-                { key: 'walk3' },
-                { key: 'walk4' },
-                { key: 'walk5' },
-                { key: 'walk6' },
-                { key: 'walk7' },
+                {key: 'walk0'},
+                {key: 'walk1'},
+                {key: 'walk2'},
+                {key: 'walk3'},
+                {key: 'walk4'},
+                {key: 'walk5'},
+                {key: 'walk6'},
+                {key: 'walk7'},
             ],
             frameRate: 30,
             repeat: -1,
@@ -71,11 +71,11 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk_jump_warmup',
             frames: [
-                { key: 'walk_jump06' },
-                { key: 'walk_jump07' },
-                { key: 'walk_jump08' },
-                { key: 'walk_jump09' },
-                { key: 'walk_jump10' },
+                {key: 'walk_jump06'},
+                {key: 'walk_jump07'},
+                {key: 'walk_jump08'},
+                {key: 'walk_jump09'},
+                {key: 'walk_jump10'},
             ],
             frameRate: 30,
             repeat: 0,
@@ -83,11 +83,11 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk_jump_loop',
             frames: [
-                { key: 'walk_jump11' },
-                { key: 'walk_jump12' },
-                { key: 'walk_jump13' },
-                { key: 'walk_jump14' },
-                { key: 'walk_jump15' },
+                {key: 'walk_jump11'},
+                {key: 'walk_jump12'},
+                {key: 'walk_jump13'},
+                {key: 'walk_jump14'},
+                {key: 'walk_jump15'},
             ],
             frameRate: 12,
             repeat: -1,
@@ -95,10 +95,10 @@ export class Game extends Scene {
         this.anims.create({
             key: 'idle',
             frames: [
-                { key: 'idle0' },
-                { key: 'idle1' },
-                { key: 'idle2' },
-                { key: 'idle3' },
+                {key: 'idle0'},
+                {key: 'idle1'},
+                {key: 'idle2'},
+                {key: 'idle3'},
             ],
             frameRate: 12,
             repeat: -1,
@@ -138,7 +138,7 @@ export class Game extends Scene {
         this.physics.add.collider(this.player, collisionGroup);
 
         this.physics.add.collider(this.player, doorGroup, () => {
-            this.sound.add('nice', { volume: 0.5 }).play();
+            this.sound.add('nice', {volume: 0.5}).play();
             this.scene.start('GameOver');
         });
 
@@ -147,7 +147,7 @@ export class Game extends Scene {
     }
 
     get_movement_vector() {
-        var movement_vector = { x: 0, y: 0 };
+        var movement_vector = {x: 0, y: 0};
         if (this.keys.left.isDown || this.keys2.left.isDown) {
             movement_vector.x += 1;
         }
@@ -223,6 +223,11 @@ export class Game extends Scene {
             this.coyoteTimeCounter = 0;
         }
 
+        if (onGround) {
+            this.player.setVelocityY(0);
+            curVel.y = 0;
+        }
+
         if (curVel.y < -0.01) {
             if (onGround) {
                 this.gravityMultiplier = 1;
@@ -257,7 +262,6 @@ export class Game extends Scene {
                     this.coyoteTimeCounter < COYOTE_TIME)
             ) {
                 this.jumpRequested = false;
-                this.jumpBufferCounter = 0;
                 this.coyoteTimeCounter = 0;
 
                 var jumpSpeed =
@@ -272,6 +276,7 @@ export class Game extends Scene {
                 this.player.setVelocityY(curVel.y - jumpSpeed);
                 this.currentlyJumping = true;
                 this.player.play('walk_jump_warmup');
+                this.jumpSound.play();
             }
             this.jumpRequested = false;
         }

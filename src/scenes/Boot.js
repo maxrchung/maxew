@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import {Scene} from 'phaser';
 
 const load = (scene, key) => {
     scene.load.image(`${key}1`, `${key}1.png`);
@@ -67,12 +67,12 @@ export class Boot extends Scene {
     }
 
     create() {
-        this.sound
+        /*this.sound
             .add('max300', {
                 volume: 0.1,
                 loop: true,
             })
-            .play();
+            .play();*/
 
         this.scene.start('Game');
         // this.scene.start('CollisionTester');

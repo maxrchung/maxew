@@ -6,6 +6,7 @@ import {MainMenu} from './scenes/MainMenu';
 import {InvertPipeline} from './pipelines/InvertPipeline';
 import {ReflectPipeline} from './pipelines/ReflectPipeline';
 import {CollisionTester} from './scenes/CollisionTester';
+import {ClonePipeline} from "./pipelines/ClonePipeline.js";
 
 //  Find out more information about the Game Config at:
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
@@ -26,6 +27,7 @@ const config = {
     pipeline: {
         Invert: InvertPipeline,
         Reflect: ReflectPipeline,
+        Clone: ClonePipeline,
     },
     physics: {
         default: 'arcade',

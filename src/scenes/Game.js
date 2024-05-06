@@ -55,14 +55,14 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk',
             frames: [
-                { key: 'walk0' },
-                { key: 'walk1' },
-                { key: 'walk2' },
-                { key: 'walk3' },
-                { key: 'walk4' },
-                { key: 'walk5' },
-                { key: 'walk6' },
-                { key: 'walk7' },
+                {key: 'walk0'},
+                {key: 'walk1'},
+                {key: 'walk2'},
+                {key: 'walk3'},
+                {key: 'walk4'},
+                {key: 'walk5'},
+                {key: 'walk6'},
+                {key: 'walk7'},
             ],
             frameRate: 30,
             repeat: -1,
@@ -70,11 +70,11 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk_jump_warmup',
             frames: [
-                { key: 'walk_jump06' },
-                { key: 'walk_jump07' },
-                { key: 'walk_jump08' },
-                { key: 'walk_jump09' },
-                { key: 'walk_jump10' },
+                {key: 'walk_jump06'},
+                {key: 'walk_jump07'},
+                {key: 'walk_jump08'},
+                {key: 'walk_jump09'},
+                {key: 'walk_jump10'},
             ],
             frameRate: 30,
             repeat: 0,
@@ -82,11 +82,11 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk_jump_loop',
             frames: [
-                { key: 'walk_jump11' },
-                { key: 'walk_jump12' },
-                { key: 'walk_jump13' },
-                { key: 'walk_jump14' },
-                { key: 'walk_jump15' },
+                {key: 'walk_jump11'},
+                {key: 'walk_jump12'},
+                {key: 'walk_jump13'},
+                {key: 'walk_jump14'},
+                {key: 'walk_jump15'},
             ],
             frameRate: 12,
             repeat: -1,
@@ -94,10 +94,10 @@ export class Game extends Scene {
         this.anims.create({
             key: 'idle',
             frames: [
-                { key: 'idle0' },
-                { key: 'idle1' },
-                { key: 'idle2' },
-                { key: 'idle3' },
+                {key: 'idle0'},
+                {key: 'idle1'},
+                {key: 'idle2'},
+                {key: 'idle3'},
             ],
             frameRate: 12,
             repeat: -1,
@@ -106,6 +106,7 @@ export class Game extends Scene {
         this.player = this.physics.add
             .sprite(START_POS[0], START_POS[1], 'idle0')
             .play('idle');
+        this.player.setPipeline('Clone');
         this.player.body.setSize(38, 100);
         this.player.on('animationcomplete', (animation) => {
             if (animation.key === 'walk_jump_warmup') {
@@ -129,7 +130,7 @@ export class Game extends Scene {
     }
 
     get_movement_vector() {
-        var movement_vector = { x: 0, y: 0 };
+        var movement_vector = {x: 0, y: 0};
         if (this.keys.left.isDown || this.keys2.left.isDown) {
             movement_vector.x += 1;
         }

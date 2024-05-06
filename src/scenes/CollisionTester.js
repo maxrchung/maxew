@@ -179,12 +179,12 @@ export const COLLISIONS = [
 
     [764, -8323, 915, -8264],
     [915, -8264, 851, -8271],
-
-    [899, -9567, 964, -9345], //door
 ];
 
-// export const START_POS = [101, -110];
-export const START_POS = [736, -7981];
+export const DOOR_COLLISION = [975, -9564, 1010, -9352];
+
+export const START_POS = [101, -110];
+// export const START_POS = [756, -9484];
 
 export class CollisionTester extends Scene {
     constructor() {

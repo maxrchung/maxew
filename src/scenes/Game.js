@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { COLLISIONS, START_POS } from './CollisionTester';
+import { COLLISIONS, DOOR_COLLISION, START_POS } from './CollisionTester';
 
 const JUMP_HEIGHT = 5;
 const TIME_TO_JUMP_APEX = 0.12;
@@ -28,7 +28,7 @@ export class Game extends Scene {
 
     create() {
         // Uncomment to apply distortion effect
-        // this.cameras.main.setPostPipeline('Reflect');
+        this.cameras.main.setPostPipeline('Reflect');
 
         this.keys = this.input.keyboard.createCursorKeys();
         this.keys2 = this.input.keyboard.addKeys({
@@ -55,14 +55,14 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk',
             frames: [
-                {key: 'walk0'},
-                {key: 'walk1'},
-                {key: 'walk2'},
-                {key: 'walk3'},
-                {key: 'walk4'},
-                {key: 'walk5'},
-                {key: 'walk6'},
-                {key: 'walk7'},
+                { key: 'walk0' },
+                { key: 'walk1' },
+                { key: 'walk2' },
+                { key: 'walk3' },
+                { key: 'walk4' },
+                { key: 'walk5' },
+                { key: 'walk6' },
+                { key: 'walk7' },
             ],
             frameRate: 30,
             repeat: -1,
@@ -70,11 +70,11 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk_jump_warmup',
             frames: [
-                {key: 'walk_jump06'},
-                {key: 'walk_jump07'},
-                {key: 'walk_jump08'},
-                {key: 'walk_jump09'},
-                {key: 'walk_jump10'},
+                { key: 'walk_jump06' },
+                { key: 'walk_jump07' },
+                { key: 'walk_jump08' },
+                { key: 'walk_jump09' },
+                { key: 'walk_jump10' },
             ],
             frameRate: 30,
             repeat: 0,
@@ -82,11 +82,11 @@ export class Game extends Scene {
         this.anims.create({
             key: 'walk_jump_loop',
             frames: [
-                {key: 'walk_jump11'},
-                {key: 'walk_jump12'},
-                {key: 'walk_jump13'},
-                {key: 'walk_jump14'},
-                {key: 'walk_jump15'},
+                { key: 'walk_jump11' },
+                { key: 'walk_jump12' },
+                { key: 'walk_jump13' },
+                { key: 'walk_jump14' },
+                { key: 'walk_jump15' },
             ],
             frameRate: 12,
             repeat: -1,
@@ -94,10 +94,10 @@ export class Game extends Scene {
         this.anims.create({
             key: 'idle',
             frames: [
-                {key: 'idle0'},
-                {key: 'idle1'},
-                {key: 'idle2'},
-                {key: 'idle3'},
+                { key: 'idle0' },
+                { key: 'idle1' },
+                { key: 'idle2' },
+                { key: 'idle3' },
             ],
             frameRate: 12,
             repeat: -1,
@@ -122,15 +122,31 @@ export class Game extends Scene {
             collisionGroup.add(rect);
         }
 
+        const doorGroup = this.physics.add.staticGroup();
+        const [doorX, doorY, doorX2, doorY2] = DOOR_COLLISION;
+        this.door = this.add.rectangle(
+            doorX,
+            doorY,
+            doorX2 - doorX,
+            doorY2 - doorY
+        );
+        this.door.setOrigin(0, 0);
+        doorGroup.add(this.door);
+
         // Add a collider between the player and the rectangle
         this.physics.add.collider(this.player, collisionGroup);
+
+        this.physics.add.collider(this.player, doorGroup, () => {
+            this.sound.add('nice', { volume: 0.5 }).play();
+            this.scene.start('GameOver');
+        });
 
         this.cameras.main.startFollow(this.player, true, 1, 0.9);
         this.cameras.main.setBounds(0, -9600, 1920, 9600, true);
     }
 
     get_movement_vector() {
-        var movement_vector = {x: 0, y: 0};
+        var movement_vector = { x: 0, y: 0 };
         if (this.keys.left.isDown || this.keys2.left.isDown) {
             movement_vector.x += 1;
         }
@@ -271,11 +287,6 @@ export class Game extends Scene {
             } else {
                 this.player.play('idle', true);
             }
-        }
-
-        if (this.keys2.escape.isDown) {
-            this.sound.add('nice', { volume: 0.5 }).play();
-            this.scene.start('CollisionTester');
         }
     }
 }

@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import { COLLISIONS, DOOR_COLLISION, START_POS } from './CollisionTester';
+import createStutter from '../createStutter';
 
 const JUMP_HEIGHT = 5;
 const TIME_TO_JUMP_APEX = 0.12;
@@ -45,10 +46,10 @@ export class Game extends Scene {
         const backRight = this.add.rectangle(960, -9600, 960, 9600, 0x000000);
         backRight.setOrigin(0, 0);
 
-        const mapLeft = this.add.image(0, -9600, 'map');
+        const mapLeft = createStutter(this, 'map', 0, -9600);
         mapLeft.setOrigin(0, 0);
 
-        const mapRight = this.add.image(960, -9600, 'map');
+        const mapRight = createStutter(this, 'map', 960, -9600);
         mapRight.setOrigin(0, 0);
         mapRight.flipX = true;
 

@@ -220,10 +220,10 @@ export class CollisionTester extends Scene {
         const backRight = this.add.rectangle(960, -9600, 960, 9600, 0x000000);
         backRight.setOrigin(0, 0);
 
-        const mapLeft = this.add.image(0, -9600, 'map');
+        const mapLeft = this.add.image(0, -9600, 'map1');
         mapLeft.setOrigin(0, 0);
 
-        const mapRight = this.add.image(960, -9600, 'map');
+        const mapRight = this.add.image(960, -9600, 'map1');
         mapRight.setOrigin(0, 0);
         mapRight.flipX = true;
 

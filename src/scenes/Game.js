@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { COLLISIONS, START_POS } from './CollisionTester';
 
-const JUMP_HEIGHT = 2.25;
+const JUMP_HEIGHT = 5;
 const TIME_TO_JUMP_APEX = 0.12;
 const UPWARD_MOVEMENT_MULTIPLIER = 1.0;
 const DOWNWARD_MOVEMENT_MULTIPLIER = 5.23;

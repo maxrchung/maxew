@@ -22,6 +22,9 @@ https://youtu.be/e7XMgUWp1cU
 ![image](https://github.com/maxrchung/maxew/assets/3955187/bf0b525c-446d-44a7-8f5b-67be2bd19413)
 
 ## Dev
+
+This game is made in JavaScript with the [Phaser](https://phaser.io) game engine.
+
 ```
 npm install
 npm run dev

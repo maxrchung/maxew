@@ -23,7 +23,7 @@ https://youtu.be/e7XMgUWp1cU
 
 ## Dev
 
-This game is made in JavaScript with the [Phaser](https://phaser.io) game engine.
+This game is made in JavaScript with the [Phaser](https://phaser.io) game framework.
 
 ```
 npm install
